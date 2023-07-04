@@ -7662,8 +7662,11 @@ class App extends React.Component<AppProps, AppState> {
       height === prevState.height &&
       cursorButton === prevState.cursorButton;
 
-    // If the state hasn't changed or the scroll constraints are not defined, return null
-    if (!scrollConstraints || stateUnchanged) {
+    // If the state hasn't changed and scrollConstraints didn't just get defined, return null
+    if (
+      !scrollConstraints ||
+      (stateUnchanged && (prevState.scrollConstraints || !scrollConstraints))
+    ) {
       return null;
     }
 
