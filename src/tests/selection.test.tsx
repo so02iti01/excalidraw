@@ -17,7 +17,7 @@ import { SHAPES } from "../shapes";
 // Unmount ReactDOM from root
 ReactDOM.unmountComponentAtNode(document.getElementById("root")!);
 
-const renderScene = jest.spyOn(Renderer, "renderScene");
+const renderScene = jest.spyOn(Renderer, "renderInteractiveScene");
 beforeEach(() => {
   localStorage.clear();
   renderScene.mockClear();

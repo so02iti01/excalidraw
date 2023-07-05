@@ -428,7 +428,7 @@ export const actionToggleHandTool = register({
         type: "hand",
         lastActiveToolBeforeEraser: appState.activeTool,
       });
-      setCursor(app.canvas, CURSOR_TYPE.GRAB);
+      setCursor(app.interactiveCanvas, CURSOR_TYPE.GRAB);
     }
 
     return {

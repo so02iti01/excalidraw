@@ -11,6 +11,7 @@ import {
 } from "../element";
 import { LinearElementEditor } from "../element/linearElementEditor";
 import { isFrameElement } from "../element/typeChecks";
+import { randomInteger } from "../random";
 
 type ElementIdKey = InstanceType<typeof LinearElementEditor>["elementId"];
 type ElementKey = ExcalidrawElement | ElementIdKey;
@@ -68,6 +69,7 @@ class Scene {
   private nonDeletedFrames: readonly NonDeleted<ExcalidrawFrameElement>[] = [];
   private frames: readonly ExcalidrawFrameElement[] = [];
   private elementsMap = new Map<ExcalidrawElement["id"], ExcalidrawElement>();
+  private mutationNonce: number | undefined;
 
   getElementsIncludingDeleted() {
     return this.elements;
@@ -87,6 +89,10 @@ class Scene {
 
   getElement<T extends ExcalidrawElement>(id: T["id"]): T | null {
     return (this.elementsMap.get(id) as T | undefined) || null;
+  }
+
+  getMutationNonce() {
+    return this.mutationNonce;
   }
 
   getNonDeletedElement(
@@ -147,6 +153,8 @@ class Scene {
   }
 
   informMutation() {
+    this.mutationNonce = randomInteger();
+
     for (const callback of Array.from(this.callbacks)) {
       callback();
     }

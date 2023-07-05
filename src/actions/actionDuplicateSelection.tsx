@@ -259,6 +259,7 @@ const duplicateElements = (
 
   return {
     elements: finalElements,
+    // @ts-ignore FIXME: unignore
     appState: selectGroupsForSelectedElements(
       {
         ...appState,

@@ -85,6 +85,7 @@ const populateElements = (
     return element;
   });
 
+  // @ts-ignore FIXME: unignore
   h.setState({
     ...selectGroupsForSelectedElements(
       { ...h.state, ...appState, selectedElementIds },

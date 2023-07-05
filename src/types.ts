@@ -98,6 +98,51 @@ export type LastActiveTool =
 export type SidebarName = string;
 export type SidebarTabName = string;
 
+type CommonCanvasAppState = {
+  zoom: AppState["zoom"];
+  scrollX: AppState["scrollX"];
+  scrollY: AppState["scrollY"];
+  width: AppState["width"];
+  height: AppState["height"];
+  viewModeEnabled: AppState["viewModeEnabled"];
+  editingElement: AppState["editingElement"];
+  editingGroupId: AppState["editingGroupId"];
+  editingLinearElement: AppState["editingLinearElement"];
+  selectedElementIds: AppState["selectedElementIds"]; // FIXME II: Let's try to remove this one and other similar from common, so is no necessary re-renders of static canvas
+  frameToHighlight: AppState["frameToHighlight"];
+  offsetLeft: AppState["offsetLeft"];
+  offsetTop: AppState["offsetTop"];
+  theme: AppState["theme"];
+  pendingImageElementId: AppState["pendingImageElementId"];
+};
+
+export type StaticCanvasAppState = CommonCanvasAppState & {
+  shouldCacheIgnoreZoom: AppState["shouldCacheIgnoreZoom"];
+  /** null indicates transparent bg */
+  viewBackgroundColor?: AppState["viewBackgroundColor"];
+  exportScale: AppState["exportScale"];
+  selectedElementsAreBeingDragged: AppState["selectedElementsAreBeingDragged"];
+  gridSize: AppState["gridSize"];
+  shouldRenderFrames: AppState["shouldRenderFrames"];
+};
+
+export type InteractiveCanvasAppState = CommonCanvasAppState & {
+  // renderInteractiveScene
+  selectionElement: AppState["selectionElement"];
+  selectedGroupIds: AppState["selectedGroupIds"];
+  selectedLinearElement: AppState["selectedLinearElement"];
+  multiElement: AppState["multiElement"];
+  isBindingEnabled: AppState["isBindingEnabled"];
+  suggestedBindings: AppState["suggestedBindings"];
+  isRotating: AppState["isRotating"];
+  elementsToHighlight: AppState["elementsToHighlight"];
+  // App
+  openSidebar: AppState["openSidebar"];
+  showHyperlinkPopup: AppState["showHyperlinkPopup"];
+  // Collaborators
+  collaborators: AppState["collaborators"];
+};
+
 export type AppState = {
   contextMenu: {
     items: ContextMenuItems;
@@ -429,6 +474,7 @@ export type AppProps = Merge<
 export type AppClassProperties = {
   props: AppProps;
   canvas: HTMLCanvasElement | null;
+  interactiveCanvas: HTMLCanvasElement | null; // FIXME II: think about types separation for each so they do not get interchanged (canvas? which canvas?)
   focusContainer(): void;
   library: Library;
   imageCache: Map<

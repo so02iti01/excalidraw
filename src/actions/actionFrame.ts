@@ -116,7 +116,7 @@ export const actionSetFrameAsActiveTool = register({
       type: "frame",
     });
 
-    setCursorForShape(app.canvas, {
+    setCursorForShape(app.interactiveCanvas, {
       ...appState,
       activeTool: nextActiveTool,
     });

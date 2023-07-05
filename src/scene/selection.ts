@@ -3,7 +3,7 @@ import {
   NonDeletedExcalidrawElement,
 } from "../element/types";
 import { getElementAbsoluteCoords, getElementBounds } from "../element";
-import { AppState } from "../types";
+import { AppState, InteractiveCanvasAppState } from "../types";
 import { isBoundToContainer } from "../element/typeChecks";
 import {
   elementOverlapsWithFrame,
@@ -144,31 +144,49 @@ export const getCommonAttributeOfSelectedElements = <T>(
   return attributes.length === 1 ? attributes[0] : null;
 };
 
+// FIXME II: memoize could be a decorator or something reusable
+let selectedElementsCache: NonDeletedExcalidrawElement[] = [];
+// FIXME II: add some more meaningful name
+let elementsLengthCache2 = 0; // FIXME II: this is probably not enough for all edge cases (could be immutable? is also elsewhere)
+// FIXME II: this cache does not really work, there is some bug in selectedElementIds
+let selectedElementIdsLengthCache2 = 0;
+
 export const getSelectedElements = (
   elements: readonly NonDeletedExcalidrawElement[],
-  appState: Pick<AppState, "selectedElementIds">,
+  appState: Pick<InteractiveCanvasAppState, "selectedElementIds">,
   opts?: {
     includeBoundTextElement?: boolean;
     includeElementsInFrames?: boolean;
   },
 ) => {
-  const selectedElements = elements.filter((element) => {
-    if (appState.selectedElementIds[element.id]) {
-      return element;
-    }
-    if (
-      opts?.includeBoundTextElement &&
-      isBoundToContainer(element) &&
-      appState.selectedElementIds[element?.containerId]
-    ) {
-      return element;
-    }
-    return null;
-  });
+  const selectedElementIdsLength = Object.keys(
+    appState.selectedElementIds,
+  ).length;
+  if (
+    elementsLengthCache2 !== elements.length ||
+    selectedElementIdsLengthCache2 !== selectedElementIdsLength
+  ) {
+    elementsLengthCache2 = elements.length;
+    selectedElementIdsLengthCache2 = selectedElementIdsLength;
+
+    selectedElementsCache = elements.filter((element) => {
+      if (appState.selectedElementIds[element.id]) {
+        return element;
+      }
+      if (
+        opts?.includeBoundTextElement &&
+        isBoundToContainer(element) &&
+        appState.selectedElementIds[element?.containerId]
+      ) {
+        return element;
+      }
+      return null;
+    });
+  }
 
   if (opts?.includeElementsInFrames) {
     const elementsToInclude: ExcalidrawElement[] = [];
-    selectedElements.forEach((element) => {
+    selectedElementsCache.forEach((element) => {
       if (element.type === "frame") {
         getFrameElements(elements, element.id).forEach((e) =>
           elementsToInclude.push(e),
@@ -179,8 +197,7 @@ export const getSelectedElements = (
 
     return elementsToInclude;
   }
-
-  return selectedElements;
+  return selectedElementsCache;
 };
 
 export const getTargetElements = (

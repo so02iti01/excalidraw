@@ -67,6 +67,7 @@ const enableActionGroup = (
 export const actionGroup = register({
   name: "group",
   trackEvent: { category: "element" },
+  // @ts-ignore FIXME: unignore
   perform: (elements, appState, _, app) => {
     const selectedElements = getSelectedElements(
       getNonDeletedElements(elements),
@@ -183,6 +184,7 @@ export const actionGroup = register({
 export const actionUngroup = register({
   name: "ungroup",
   trackEvent: { category: "element" },
+  // @ts-ignore FIXME: unignore
   perform: (elements, appState, _, app) => {
     const groupIds = getSelectedGroupIds(appState);
     if (groupIds.length === 0) {

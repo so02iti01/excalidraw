@@ -20,7 +20,7 @@ import { FONT_FAMILY } from "../constants";
 
 const { h } = window;
 
-const renderScene = jest.spyOn(Renderer, "renderScene");
+const renderScene = jest.spyOn(Renderer, "renderStaticScene");
 
 const mouse = new Pointer("mouse");
 const finger1 = new Pointer("touch", 1);

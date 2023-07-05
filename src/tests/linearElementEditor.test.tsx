@@ -25,7 +25,7 @@ import {
 import * as textElementUtils from "../element/textElement";
 import { ROUNDNESS, VERTICAL_ALIGN } from "../constants";
 
-const renderScene = jest.spyOn(Renderer, "renderScene");
+const renderScene = jest.spyOn(Renderer, "renderStaticScene");
 
 const { h } = window;
 const font = "20px Cascadia, width: Segoe UI Emoji" as FontString;

@@ -5,7 +5,7 @@ import { render, queryByTestId } from "../tests/test-utils";
 
 import ExcalidrawApp from "../excalidraw-app";
 
-const renderScene = jest.spyOn(Renderer, "renderScene");
+const renderScene = jest.spyOn(Renderer, "renderStaticScene");
 
 describe("Test <App/>", () => {
   beforeEach(async () => {

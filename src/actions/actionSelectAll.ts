@@ -10,6 +10,7 @@ import { excludeElementsInFramesFromSelection } from "../scene/selection";
 export const actionSelectAll = register({
   name: "selectAll",
   trackEvent: { category: "canvas" },
+  // @ts-ignore FIXME: unignore
   perform: (elements, appState, value, app) => {
     if (appState.editingLinearElement) {
       return false;
