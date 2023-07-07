@@ -365,6 +365,7 @@ const ExcalidrawAppStateContext = React.createContext<AppState>({
   height: 0,
   offsetLeft: 0,
   offsetTop: 0,
+  scrollConstraints: null,
 });
 ExcalidrawAppStateContext.displayName = "ExcalidrawAppStateContext";
 
@@ -465,7 +466,9 @@ class App extends React.Component<AppProps, AppState> {
       gridModeEnabled = false,
       theme = defaultAppState.theme,
       name = defaultAppState.name,
+      scrollConstraints,
     } = props;
+
     this.state = {
       ...defaultAppState,
       theme,
@@ -479,6 +482,7 @@ class App extends React.Component<AppProps, AppState> {
       height: window.innerHeight,
       showHyperlinkPopup: false,
       defaultSidebarDockedPreference: false,
+      scrollConstraints: scrollConstraints ?? null,
     };
 
     this.id = nanoid();
@@ -1210,6 +1214,7 @@ class App extends React.Component<AppProps, AppState> {
             height: this.state.height,
             offsetTop: this.state.offsetTop,
             offsetLeft: this.state.offsetLeft,
+            scrollConstraints: this.state.scrollConstraints,
           },
           null,
         ),
