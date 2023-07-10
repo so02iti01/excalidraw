@@ -7826,10 +7826,6 @@ class App extends React.Component<AppProps, AppState> {
           cursorButton !== "down" &&
           currentZoom.value === prevState.zoom.value
         ) {
-          this.setState({
-            scrollConstraints: { ...scrollConstraints, isAnimating: true },
-          });
-
           easeToValuesRAF({
             fromValues: { scrollX, scrollY },
             toValues: {
